@@ -116,6 +116,7 @@ if main_concept:
 
 import networkx as nx
 import matplotlib.pyplot as plt
+import streamlit as st
 
 def visualize_neighbors_centered(original_concept, neighbors):
     """
@@ -125,13 +126,13 @@ def visualize_neighbors_centered(original_concept, neighbors):
     G = nx.DiGraph()  # Direktgerichteter Graph
 
     # Originalknoten hinzufügen
-    original_label =  str(original_concept)
+    original_label = str(original_concept)
     G.add_node(original_label)
 
     # Obere Nachbarn hinzufügen und mit dem Original verbinden
     neighbor_labels = []
     for i, neighbor in enumerate(neighbors):
-        neighbor_label = f" {neighbor}"
+        neighbor_label = f"{neighbor}"
         neighbor_labels.append(neighbor_label)
         G.add_node(neighbor_label)
         G.add_edge(original_label, neighbor_label)
@@ -147,23 +148,35 @@ def visualize_neighbors_centered(original_concept, neighbors):
         pos[neighbor_label] = (x_offset, 1)  # Nachbarn auf einer höheren Ebene
 
     # Graph zeichnen
-    fig=plt.figure(figsize=(18, 5))
+    fig, ax = plt.subplots(figsize=(10, 6))  # Größe des Diagramms
     nx.draw(
         G, pos, with_labels=True, node_size=3000, node_color="lightblue", 
-        font_size=10, font_weight="bold", arrowsize=20
+        font_size=10, font_weight="bold", arrowsize=20, ax=ax
     )
-    #plt.title("Visualisierung der oberen Nachbarn (Originalkonzept in der Mitte)")
-    st.pyplot(fig)
-    #plt.show()
+    st.pyplot(fig)  # Diagramm in Streamlit anzeigen
 
-# Beispielkonzept: Originalkonzept und Nachbarn
+# Streamlit-App
+def main():
+    st.title("Visualisierung der oberen Nachbarn")
+    
+    # Eingabe des Originalkonzepts
+    original_concept = st.text_input("Gib das Originalkonzept ein (z.B. 'A')", "Originalkonzept")
+    
+    # Berechnung der oberen Nachbarn (Dummy-Funktion, hier mit Beispieldaten)
+    neighbors = compute_upper_neighbors(original_concept)  # Passe diese Funktion an deine Logik an
+    
+    if st.button("Visualisierung anzeigen"):
+        if neighbors:
+            st.write(f"Originalkonzept: {original_concept}")
+            st.write(f"Obere Nachbarn: {neighbors}")
+            visualize_neighbors_centered(original_concept, neighbors)
+        else:
+            st.write("Keine Nachbarn gefunden.")
+
+# Dummy-Funktion zur Berechnung der Nachbarn (ersetzen durch eigene Logik)
+def compute_upper_neighbors(concept):
+    # Beispiel: Rückgabe von Dummy-Nachbarn
+    return ["Nachbar 1", "Nachbar 2", "Nachbar 3"]
+
 if __name__ == "__main__":
-    # Originales Konzept
-    original_concept = gesamt_konzept############gesamt_konzept###
-
-    # Berechnung der oberen Nachbar
-    neighbors = compute_upper_neighbors(original_concept)
-    for i in neighbors:
-        print(i) 
-    # Visualisierung (Originalkonzept in der Mitte)
-    visualize_neighbors_centered(original_concept, neighbors)
+    main()
