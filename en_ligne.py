@@ -159,7 +159,7 @@ def visualize_neighbors_centered(original_concept, neighbors):
 # Beispielkonzept: Originalkonzept und Nachbarn
 if __name__ == "__main__":
     # Originales Konzept
-    original_concept = main_concept############gesamt_konzept###
+    original_concept = gesamt_konzept############gesamt_konzept###
 
     # Berechnung der oberen Nachbar
     neighbors = compute_upper_neighbors(original_concept)
